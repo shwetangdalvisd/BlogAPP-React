@@ -1,0 +1,7 @@
+
+client
+435510788094-lkvfdj5gnpi5emfs7m9l4ntkrml1agsd.apps.googleusercontent.com
+
+
+secret
+-346NFFVu3iRJdZvKtWmS0et
