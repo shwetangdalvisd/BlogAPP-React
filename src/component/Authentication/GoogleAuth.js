@@ -8,7 +8,7 @@ const GoogleAuth = ({ dispatch, isSignedIn, userId }) => {
   useEffect(() => {
     const params = {
       clientId:
-        "435510788094-lkvfdj5gnpi5emfs7m9l4ntkrml1agsd.apps.googleusercontent.com",
+        "ID",
       scope: "email",
     };
 
