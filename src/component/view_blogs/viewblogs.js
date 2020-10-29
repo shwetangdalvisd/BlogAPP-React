@@ -1,7 +1,8 @@
-import React ,{ Component,useEffect, useState } from 'react'
+import React ,{ useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
 
-const Viewblogs = () => {
+const Viewblogs = (props) => {
   const[blogs,setBlogs] = useState([]);
   
   const onDelete = (id) =>{
@@ -20,6 +21,26 @@ const Viewblogs = () => {
    			setBlogs(data.blogs);
    		}))
      },[]);
+     console.log(props.userId,'ser')
+  const loged_in_up = (userid) =>{
+    if (props.isSignedIn && props.userId===userid) {
+          return <button>UPDATE</button>
+      }
+      else{
+          return null
+      }
+  
+  }
+
+  const loged_in_del = (id,userid) =>{
+    if (props.isSignedIn && props.userId===userid ) {
+          return <button className="pull-right" onClick={() => onDelete(id)}>DELETE</button>
+      }
+      else{
+          return null
+      }
+  
+  }    
   return (
     <div>
 		{blogs.map(post =>{
@@ -30,8 +51,8 @@ const Viewblogs = () => {
             <p>{post.content}</p>
             <span className="badge">Posted:{post.time}</span><div className="pull-right"><span className="badge">{post.name}</span></div> 
             <Link className="pull-right" to={"/updateblog/"+post.id}>
-              <button>UPDATE</button></Link>
-            <button className="pull-right" onClick={() => onDelete(post.id)}>Delete</button>
+              {loged_in_up(post.user_id)}</Link>
+            {loged_in_del(post.id,post.user_id)}
             </div>
         </div>
         )
@@ -39,5 +60,9 @@ const Viewblogs = () => {
     </div>
    );
 }
+const mapStateToProps = state => {
+  console.log(state,'state')
+ return { isSignedIn: state.isSignedIn, userId: state.userId };
+};
 
-export default Viewblogs;
+export default connect(mapStateToProps)(Viewblogs);

@@ -5,6 +5,7 @@ const Addblogs = (props) => {
   const [name, setName] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const user_id = props.userId
   const Namechange = (e) => setName(e.target.value);
   const Titlechange = (e) => setTitle(e.target.value);
   const Contentchange = (e) => setContent(e.target.value);
@@ -36,9 +37,9 @@ const Addblogs = (props) => {
 
  const onSubmitClick = (e) => {
  				e.preventDefault()
-                  const blogs = { name, title, content };
+                  const blogs = { name, title, content,user_id };
                   const ValidationCheck = validate();
-                  if (ValidationCheck) {
+                  if (ValidationCheck && props.isSignedIn ) {
                     const response = fetch('http://127.0.0.1:5000/add_blogs', {
                       method: 'POST',
                       headers: {

@@ -6,4 +6,5 @@ class Blog(db.Model):
 	time =  db.Column(db.DateTime, nullable=False,default=datetime.utcnow)
 	title = db.Column(db.String(50))
 	content = db.Column(db.Text(500))
+	user_id = db.Column(db.VARCHAR)
 	
