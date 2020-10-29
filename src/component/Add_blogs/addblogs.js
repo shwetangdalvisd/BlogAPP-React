@@ -11,7 +11,7 @@ const Addblogs = (props) => {
   const [error, setError] = useState({
     nameError: ``,
     titleError: ``,
-    contentError: ``,
+    contentError: '',
   });
   console.log(props.isSignedIn,'ssn')
   const validate = () => {
