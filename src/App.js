@@ -9,6 +9,7 @@ import  configureStore from "./redux/authstore"
 import viewblogs from './component/view_blogs/viewblogs'
 import singleblog from './component/view_blogs/Single_Blog/singleblog'  
 import GoogleAuth from './component/Authentication/GoogleAuth'
+import updateblog from './component/view_blogs/update_blog/updateblog'
 
 function App() {
    return (
@@ -20,6 +21,7 @@ function App() {
          <Route path = '/addblogs' component={Addblogs} />
          <Route path='/viewblogs' component={viewblogs} />
          <Route path='/Authentication' component={GoogleAuth} />
+         <Route path='/updateblog/:id' component={updateblog} />
       </div>
       </Router>
       </Provider>

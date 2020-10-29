@@ -1,6 +1,7 @@
 import React, { Component, useState } from 'react';
+import { connect } from 'react-redux';
 
-const Addblogs = () => {
+const Addblogs = (props) => {
   const [name, setName] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -12,7 +13,7 @@ const Addblogs = () => {
     titleError: ``,
     contentError: ``,
   });
-
+  console.log(props.isSignedIn,'ssn')
   const validate = () => {
     let errors = {};
     console.log(errors);
@@ -33,7 +34,7 @@ const Addblogs = () => {
     return isValid;
   };
 
- const onSubmitClick = e => {
+ const onSubmitClick = (e) => {
  				e.preventDefault()
                   const blogs = { name, title, content };
                   const ValidationCheck = validate();
@@ -46,6 +47,9 @@ const Addblogs = () => {
                       body: JSON.stringify(blogs),
                     });
                   }
+                  setName('');
+                  setTitle('');
+                  setContent('');
                 }
 
   return (
@@ -113,4 +117,9 @@ const Addblogs = () => {
   );
 };
 
-export default Addblogs;
+const mapStateToProps = state => {
+  console.log(state,'state')
+ return { isSignedIn: state.isSignedIn, userId: state.userId };
+};
+
+export default connect(mapStateToProps)(Addblogs);

@@ -1,8 +1,19 @@
 import React ,{ Component } from 'react'
 import './Header'
+import { connect } from "react-redux";
 
 
-const Header = () => {
+const Header = (props) => {
+    console.log(props.isSignedIn,'hed')
+    const loged_in = () =>{
+        if (props.isSignedIn) {
+            return <button className="btn btn-light action-button">Sign out</button>
+        }
+        else{
+            return <button className="btn btn-light action-button">LOG IN</button>
+        }
+    
+    }
   return ( 
         <div className="header-dark">
             <nav className="navbar navbar-dark navbar-expand-md navigation-clean-search">
@@ -14,11 +25,16 @@ const Header = () => {
                             <li className="nav-item" role="presentation"><a className="nav-link" href="/addblogs">Add Blogs</a></li>
                         </ul>
                         <form className="form-inline mr-auto" target="_self">
-                        </form><span className="navbar-text"><a href="/Authentication" className="login">Log In</a></span><a className="btn btn-light action-button" role="button" href="#">Sign Up</a></div>
+                        </form><span className="navbar-text"><a href="/Authentication" className="login">{loged_in()}</a></span></div>
                 </div>
             </nav>
         </div>
   )
 }
 
-export default Header;
+const mapStateToProps = state => {
+    console.log(state,'state')
+   return { isSignedIn: state.isSignedIn, userId: state.userId };
+};
+
+export default connect(mapStateToProps)(Header);

@@ -33,3 +33,27 @@ def singleblog(post_id):
 	singleb.append({'title': fb.title,'content':fb.content,'name':fb.name,'time':fb.time,'id':fb.id})
 
 	return jsonify({'singleb': singleb})
+
+@main.route("/deleteblog/<post_id>", methods=['GET', 'POST','DELETE'])
+def deleteblog(post_id):
+	
+	del_post = Blog.query.filter_by(id=int(post_id)).delete()
+	db.session.commit()
+	Blog_list = Blog.query.all()
+	blogs = []
+	for blog in Blog_list:
+		blogs.append({'title': blog.title,'content':blog.content,'name':blog.name,'time':blog.time,'id':blog.id})
+	return jsonify({'blogs' : blogs})
+
+	
+
+@main.route("/update/<post_id>",methods=['GET','POST'])
+def update(post_id):
+	up_post = Blog.query.filter_by(id=int(post_id)).first()
+
+	blog_data = request.get_json()
+	up_post.title = blog_data['title']
+	up_post.content = blog_data['content']
+	db.session.commit()
+
+	return 'updated'

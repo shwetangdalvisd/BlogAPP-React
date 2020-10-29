@@ -3,7 +3,7 @@ import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import authreducer from "./authreducer";
 
-const configureStore = (preloadedState) => {
+const configureStore = () => {
   const store = createStore(
     authreducer,
     composeWithDevTools(applyMiddleware())
