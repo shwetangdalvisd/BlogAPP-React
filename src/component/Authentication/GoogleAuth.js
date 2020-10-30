@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import {signIn,signOut} from "../../redux/authaction";
+import { signIn, signOut } from "../../actions/authaction";
 
-const GoogleAuth = ({ userId ,dispatch }) => {
-  const [auth, setAuth] = useState('');
-  const [isSignedIn , setSignIn ] = useState(null)
-
+const GoogleAuth = ({ userId, dispatch }) => {
+  const [auth, setAuth] = useState("");
+  const [isSignedIn, setSignIn] = useState(null);
 
   useEffect(() => {
     const params = {
@@ -17,7 +16,7 @@ const GoogleAuth = ({ userId ,dispatch }) => {
     window.gapi.load("client:auth2", () => {
       window.gapi.client.init(params).then(() => {
         setAuth(window.gapi.auth2.getAuthInstance());
-        setSignIn(window.gapi.auth2.getAuthInstance().isSignedIn.get())
+        setSignIn(window.gapi.auth2.getAuthInstance().isSignedIn.get());
         onAuthChange(window.gapi.auth2.getAuthInstance().isSignedIn.get());
         window.gapi.auth2.getAuthInstance().isSignedIn.listen(onAuthChange);
       });
@@ -26,16 +25,11 @@ const GoogleAuth = ({ userId ,dispatch }) => {
 
   const onAuthChange = (isSignedIn) => {
     setSignIn(isSignedIn);
-
-    if (isSignedIn) {
-      dispatch(
-        signIn(
-          window.gapi.auth2.getAuthInstance().currentUser.get().getId()
-        )
-      );
-    } else {
-      dispatch(signOut());
-    }
+    isSignedIn
+      ? dispatch(
+        signIn(window.gapi.auth2.getAuthInstance().currentUser.get().getId())
+      )
+      : dispatch(signOut());
   };
 
   const onSignInClick = () => {
@@ -47,13 +41,12 @@ const GoogleAuth = ({ userId ,dispatch }) => {
   };
 
   const renderAuthButton = () => {
-    console.log(isSignedIn,'sghhdg')
     if (isSignedIn === null) {
       return null;
     } else if (isSignedIn) {
       return (
         <div>
-          { <span>{userId}</span> }
+          {<span>{userId}</span>}
           <button onClick={onSignOutClick}>Signout</button>
         </div>
       );
@@ -65,9 +58,8 @@ const GoogleAuth = ({ userId ,dispatch }) => {
   return <div>{renderAuthButton()}</div>;
 };
 
-const mapStateToProps = state => {
-  console.log(state,'state')
- return { isSignedIn: state.isSignedIn, userId: state.userId };
+const mapStateToProps = (state) => {
+  return { isSignedIn: state.isSignedIn, userId: state.userId };
 };
 
 export default connect(mapStateToProps)(GoogleAuth);

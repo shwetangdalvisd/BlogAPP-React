@@ -1,4 +1,4 @@
-import {SIGN_IN,SIGN_OUT} from './authactiontype'
+import {SIGN_IN,SIGN_OUT} from '../actions/authactiontype'
 
 const INITIAL_STATE = {
     isSignedIn: null,
