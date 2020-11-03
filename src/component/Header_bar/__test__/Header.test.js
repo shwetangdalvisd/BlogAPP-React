@@ -33,7 +33,13 @@ it('renders without crashing', () => {
 
 describe('Log in button render check',()=>{
     it('signout button check',() => {
-        const {queryByTestId}=renderwithRedux(<Router><Header isSignedIn={states.isSignedIn}/></Router>)
+        const store = configureStore({isSignedIn:true})
+        const {queryByTestId}=render(<Provider store={store}><Router><Header isSignedIn={states.isSignedIn}/></Router></Provider>)
+        expect(queryByTestId("Sign Out")).toBeTruthy()
+    })
+    it('Log In button check',() => {
+        const store = configureStore({isSignedIn:false})
+        const {queryByTestId}=render(<Provider store={store}><Router><Header isSignedIn={states.isSignedIn}/></Router></Provider>)
         expect(queryByTestId("Log IN")).toBeTruthy()
     })
 })
