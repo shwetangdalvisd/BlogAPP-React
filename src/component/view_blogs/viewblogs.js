@@ -44,7 +44,7 @@ const Viewblogs = (props) => {
       return(
         <div className='container' >
           <div className="col-md-8">
-            <Link to={`/singleblog/${post.id}`}><h1>{post.title}</h1></Link>
+            <Link to={`/singleblog/${post.id}`}><h1 data-testid='title' >{post.title}</h1></Link>
             <p>{post.content}</p>
             <span className="badge">Posted:{post.time}</span><div className="pull-right"><span className="badge">{post.name}</span></div> 
             <Link className="pull-right" to={`/updateblog/${post.id}`}>

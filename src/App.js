@@ -17,15 +17,15 @@ function App() {
       <Provider store={configureStore}>
          <Router>
             <div className="App">
-               <Switch>
+               
                   <Header />
                   <Route path='/singleblog/:id' component={Singleblog} />
                   <Route path='/addblogs' component={Addblogs} />
                   <Route path='/viewblogs' component={Viewblogs} />
                   <Route path='/Authentication' component={GoogleAuth} />
                   <Route path='/updateblog/:id' component={Updateblog} />
-               </Switch>
             </div>
+
          </Router>
       </Provider>
    );

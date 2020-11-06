@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 
 const Header = (props) => {
+    console.log(props)
     const loged_in = () =>{
         if (props.isSignedIn) {
             return <button data-testid='Sign Out' className="btn btn-light action-button">Sign out</button>
