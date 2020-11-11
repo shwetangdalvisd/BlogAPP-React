@@ -1,12 +1,12 @@
-// import React from 'react';
-// import { cleanup, render, fireEvent } from '@testing-library/react';
-// import { Provider } from "react-redux";
-// import '@testing-library/jest-dom/extend-expect';
-// import configureStore from './../../../reducer/authstore';
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-// import Viewblogs from './../viewblogs';
-// import { unmountComponentAtNode } from "react-dom";
-// import { act } from "react-dom/test-utils";
+import React from 'react';
+import { cleanup, render, fireEvent } from '@testing-library/react';
+import { Provider } from "react-redux";
+import '@testing-library/jest-dom/extend-expect';
+import configureStore from './../../../reducer/authstore';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import Viewblogs from './../viewblogs';
+import { unmountComponentAtNode } from "react-dom";
+import { act } from "react-dom/test-utils";
 
 // let container = null;
 // beforeEach(() => {

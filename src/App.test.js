@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import Addblogs from "./component/Add_blogs/addblogs"
-import { mount } from 'enzyme';
+import { shallow,mount } from 'enzyme';
 import { MemoryRouter } from 'react-router';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import Singleblog from "./component/view_blogs/Single_Blog/singleblog"
 
 
 
@@ -25,6 +26,7 @@ it('renders without crashing', () => {
 //       <App/>
 //     </MemoryRouter>
 //   );
+//   console.log(wrapper.debug());
 //   expect(wrapper.find(Addblogs)).toHaveLength(1);
 // });
 

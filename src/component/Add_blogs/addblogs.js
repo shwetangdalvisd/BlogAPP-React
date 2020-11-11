@@ -9,35 +9,44 @@ const Addblogs = (props) => {
   const Namechange = (e) => setName(e.target.value);
   const Titlechange = (e) => setTitle(e.target.value);
   const Contentchange = (e) => setContent(e.target.value);
-  const [error, setError] = useState(
-    []
-  );
+  const [error, setError] = useState({
+    nameError: ``,
+    titleError: ``,
+    contentError: ``,
+  });
 
-  const validate_length = (length, errortype) => {
-    if (length < 1) {
-      setError([...error, errortype])
-    }
-  }
   const validate = () => {
-    validate_length(name.length, 'name')
-    validate_length(title.length, 'title')
-    validate_length(content.length, 'content')
-
+    let errors = {};
+    console.log(errors);
+    let isValid = true;
+    if (name.length < 1) {
+      errors.nameError = 'Name cannot be blank';
+      isValid = false;
+    }
+    if (title.length < 1) {
+      errors.titleError = 'Title cannot be blank';
+      isValid = false;
+    }
+    if (content.length < 1) {
+      errors.contentError = 'Content cannot be blank';
+      isValid = false;
+    }
+    setError(errors);
+    return isValid;
   };
 
   const onSubmitClick = (e) => {
-    e.preventDefault();
-    const blogs = { name, title, content, user_id };
-    console.log(error)
-    validate()
-    if (error.length < 1 && props.isSignedIn) {
-      const response = fetch("http://127.0.0.1:5000/add_blogs", {
-        method: "POST",
+    e.preventDefault()
+    const blogs = { name, title, content };
+    const ValidationCheck = validate();
+    if (ValidationCheck) {
+      const response = fetch('http://127.0.0.1:5000/add_blogs', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(blogs),
-      });
+        });
     }
     setName("");
     setTitle("");
@@ -65,7 +74,7 @@ const Addblogs = (props) => {
             onChange={Namechange}
           />
         </div>
-        <div className="Error-form">{error['name']}</div>
+        <div className="Error-form" data-testid='name error'>{error.nameError}</div>
         <div className="form-group">
           <label htmlFor="search-field"></label>
           <input
@@ -77,8 +86,8 @@ const Addblogs = (props) => {
             onChange={Titlechange}
           />
         </div>
-        <div className="Error-form">
-          {error['title']}
+        <div className="Error-form" data-testid='title error'>
+          {error.titleError}
           <div>
             <br />
             <br />
@@ -93,7 +102,7 @@ const Addblogs = (props) => {
                 onChange={Contentchange}
               ></textarea>
             </div>
-            <div className="Error-form">{error['content']}</div>
+            <div className="Error-form" data-testid='content error'>{error.contentError}</div>
             <button type="submit"  data-testid='submit' value="submit" onClick={onSubmitClick}>
               Submit
             </button>

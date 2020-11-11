@@ -7,8 +7,10 @@ import configureStore  from './../../../reducer/authstore';
 import authreducer from './../../../reducer/authreducer';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Addblogs from './../addblogs';
+import Enzyme from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 
-
+Enzyme.configure({adapter: new Adapter() });
 
 
 afterEach(cleanup);
@@ -30,3 +32,37 @@ it('renders without crashing', () => {
 
 });
 
+
+it(`filling the form`, () => {
+  const { queryByTestId, queryByPlaceholderText } = renderwithRedux(
+    <Router>
+      <Addblogs />
+    </Router>
+  );
+
+  fireEvent.change(queryByPlaceholderText('Enter Your Name'), {
+    target: { value: 'test1' },
+  });
+  fireEvent.change(queryByPlaceholderText('Enter Title'), {
+    target: { value: 'test title' },
+  });
+  fireEvent.change(queryByPlaceholderText('Write Your Content Here.'), {
+    target: { value: 'some random content' },
+  });
+  expect(queryByPlaceholderText('Enter Your Name')).toHaveValue('test1')
+  expect(queryByPlaceholderText('Enter Title')).toHaveValue('test title')
+  expect(queryByPlaceholderText('Write Your Content Here.')).toHaveValue('some random content')
+  
+});
+
+it(`check for validation and errors thrown`, () => {
+   const { queryByTestId, queryByPlaceholderText } = renderwithRedux(
+    <Router>
+      <Addblogs />
+    </Router>
+  );
+  fireEvent.click(queryByTestId('submit'));
+    expect(queryByTestId('title error')).toHaveTextContent('Title cannot be blank')
+    expect(queryByTestId('name error')).toHaveTextContent('Name cannot be blank')
+    expect(queryByTestId('content error')).toHaveTextContent('Content cannot be blank')
+})

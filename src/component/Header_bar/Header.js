@@ -8,10 +8,10 @@ const Header = (props) => {
     console.log(props)
     const loged_in = () =>{
         if (props.isSignedIn) {
-            return <button data-testid='Sign Out' className="btn btn-light action-button">Sign out</button>
+            return <button data-testid='login_button' className="btn btn-light action-button">Sign out</button>
         }
         else{
-            return <button  data-testid='Log IN' className="btn btn-light action-button">LOG IN</button>
+            return <button  data-testid='login_button' className="btn btn-light action-button">LOG IN</button>
         }
     
     }
