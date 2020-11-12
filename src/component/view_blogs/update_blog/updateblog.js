@@ -3,12 +3,13 @@ import React, { Component, useEffect, useState } from 'react'
 
 const Updateblog = ({ match }) => {
   const [posts, setPost] = useState([]);
+  const id = match.params.id;
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const Titlechange = (e) => setTitle(e.target.value);
   const Contentchange = (e) => setContent(e.target.value);
-  console.log(match.params)
-  const id = match.params.id
+  console.log(match)
+  
   
   useEffect(() => {
     fetch(`http://127.0.0.1:5000/singleblog/${id}`, {

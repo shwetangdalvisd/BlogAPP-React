@@ -5,28 +5,31 @@ const Singleblog = ({ match }) => {
 
   const id = match.params.id;
   console.log(id, `+++++++++++++++++++`)
-  useEffect(() => {
-    const fetchRes = () => {
-      
+  useEffect(() => {fetch(`http://127.0.0.1:5000/singleblog/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    }).then(response => response.json().then(data => {
+      setPost(data.singleb)
+    }))}
       // try {
-        const data = fetch(`http://127.0.0.1:5000/singleblog/${id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }).then((response) =>
-          response.json().then((data) => {
-            console.log(data, `data`)
-            setPost(data.singleb);
-          })
-        );
+        // const data = fetch(`http://127.0.0.1:5000/singleblog/${id}`, {
+        //   method: 'GET',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        // }).then((response) =>
+        //   response.json().then((data) => {
+        //     console.log(data, `+++++++++++++++`)
+        //     setPost(data.singleb);
+        //   })
+        // );
         // setPost(data.singleb);
       // } catch (e) {
       //   console.log(e);
       // }
-    };
-    fetchRes();
-  }, []);
+, []);
 
   return (
     <div>

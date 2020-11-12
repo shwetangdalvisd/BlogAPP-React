@@ -37,7 +37,7 @@ const Addblogs = (props) => {
 
   const onSubmitClick = (e) => {
     e.preventDefault()
-    const blogs = { name, title, content };
+    const blogs = { name, title, content,user_id };
     const ValidationCheck = validate();
     if (ValidationCheck) {
       const response = fetch('http://127.0.0.1:5000/add_blogs', {

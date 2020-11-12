@@ -23,6 +23,7 @@ import Singleblog from '../singleblog';
         }]),
     });
   })
+  
   });
   
 describe(`<singleBlog>`, () => {
