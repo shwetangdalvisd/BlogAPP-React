@@ -1,18 +1,14 @@
 import React, { Component, useEffect, useState } from 'react';
+import {fetchdataS} from './../../Fetchdata/fetchdata'
 
-const Singleblog = ({ match }) => {
-  const [posts, setPost] = useState([]);
+// const Singleblog = ({ match }) => {
+//   const [posts, setPost] = useState([]);
 
-  const id = match.params.id;
-  console.log(id, `+++++++++++++++++++`)
-  useEffect(() => {fetch(`http://127.0.0.1:5000/singleblog/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    }).then(response => response.json().then(data => {
-      setPost(data.singleb)
-    }))}
+//   const id = match.params.id;
+//   console.log(id, `+++++++++++++++++++`)
+//   useEffect(() => {fetchdataS(id).then(data => {
+//       setPost(data.singleb)
+//     })}
       // try {
         // const data = fetch(`http://127.0.0.1:5000/singleblog/${id}`, {
         //   method: 'GET',
@@ -29,15 +25,37 @@ const Singleblog = ({ match }) => {
       // } catch (e) {
       //   console.log(e);
       // }
-, []);
+// , []);
 
+const Singleblog = ({ match }) => {
+  const [posts, setPost] = useState([]);
+
+  const id = match.params.id;
+  useEffect(() => {
+    const fetchRes = () => {
+      fetch(`http://127.0.0.1:5000/singleblog/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((response) =>
+        response.json().then((data) => {
+          setPost(data.singleb);
+        })
+      );
+    };
+    fetchRes();
+  }, []);
+  
+
+  console.log(posts,'posts')
   return (
     <div>
       {posts.map((post) => {
         return (
           <div className="container">
             <div className="col-md-16">
-              <h1>{post.title}</h1>
+              <h1 data-testid='title'>{post.title}</h1>
               <p>{post.content}</p>
               <span className="badge">Posted:{post.time}</span>
               <div className="pull-right">

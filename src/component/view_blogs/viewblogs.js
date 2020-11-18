@@ -1,23 +1,24 @@
 import React ,{ useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
+import {fetchdataV,fetchdataVD} from './../Fetchdata/fetchdata'
 
 const Viewblogs = (props) => {
   const[blogs,setBlogs] = useState([]);
   
   const onDelete = (id) =>{
-    fetch(`http://127.0.0.1:5000/deleteblog/${id}`, {
-      method: 'DELETE',
-    }).then(response => response.json().then(data => {
+    fetchdataVD(id).then(data => {
        setBlogs(data.blogs);
-     }));
+     });
     
   }
 
 	useEffect(() => {
-   		fetch('http://127.0.0.1:5000/blogs').then(response => response.json().then(data => {
-   			setBlogs(data.blogs);
-   		}))
+   		fetchdataV().then(data => {
+         const da = data.blogs
+        setBlogs(da);
+        console.log(da,blogs,'test')
+      })
      },[]);
   const loged_in_up = (userid) =>{
     if (props.isSignedIn && props.userId===userid) {
@@ -41,12 +42,13 @@ const Viewblogs = (props) => {
   return (
     <div>
 		{blogs.map(post =>{
+      console.log(blogs,'ssd')
       return(
         <div className='container' >
           <div className="col-md-8">
             <Link to={`/singleblog/${post.id}`}><h1 data-testid='title' >{post.title}</h1></Link>
-            <p>{post.content}</p>
-            <span className="badge">Posted:{post.time}</span><div className="pull-right"><span className="badge">{post.name}</span></div> 
+            <p data-testid='content'>{post.content}</p>
+            <span className="badge" data-testid='content'>Posted:{post.time}</span><div className="pull-right"><span className="badge">{post.name}</span></div> 
             <Link className="pull-right" to={`/updateblog/${post.id}`}>
               {loged_in_up(post.user_id)}</Link>
             {loged_in_del(post.id,post.user_id)}

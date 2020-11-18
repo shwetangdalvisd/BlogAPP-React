@@ -1,66 +1,38 @@
+
 import React from 'react';
-import { cleanup, render, fireEvent } from '@testing-library/react';
-import { Provider } from "react-redux";
 import '@testing-library/jest-dom/extend-expect';
-import configureStore from './../../../reducer/authstore';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { act, render } from '@testing-library/react';
 import Viewblogs from './../viewblogs';
-import { unmountComponentAtNode } from "react-dom";
-import { act } from "react-dom/test-utils";
+import {fetchdataV} from './../../Fetchdata/fetchdata'
+import configureStore from './../../../reducer/authstore'
+import { Provider } from "react-redux";
+import { BrowserRouter as Router } from 'react-router-dom'
 
-// let container = null;
-// beforeEach(() => {
-//   // setup a DOM element as a render target
-//   container = document.createElement("div");
-//   document.body.appendChild(container);
-// });
-
-// afterEach(() => {
-//   // cleanup on exiting
-//   unmountComponentAtNode(container);
-//   container.remove();
-//   container = null;
-// });
-
-// afterEach(cleanup);
-
-// function renderwithRedux(component, store = configureStore) {
-//     return {
-//         ...render(<Provider store={store}>{component}</Provider>)
-//     }
-// }
+jest.mock('./../../Fetchdata/fetchdata.js');
+function renderwithRedux(component, store = configureStore) {
+    return {
+        ...render(<Provider store={store}>{component}</Provider>)
+    }
+}
 
 
+it(`mocking response`, async () => {
+  const userData ={ 
+    blogs :[{
+      name: `thug`,
+      title: `random title`,
+      content: `boring content`,
+      time: `22:00am`,
+      id:5,
+      user_id:2334,
 
-// it('renders without crashing', () => {
-//     const {queryByTestId,queryByPlaceholderText}=renderwithRedux(<Router><Viewblogs /></Router>);
+  }]
+}
+  fetchdataV.mockResolvedValue(userData);
+  await act(async () => {
+    const {queryByTestId} = renderwithRedux(<Router><Viewblogs /></Router>)
+    expect(queryByTestId('content')).toHaveTextContent('boring content')
+  });
+  
 
-// });
-
-// it("renders user data", async () => {
-//     const fakeBlog = {    
-//         name: "Joni Baez",    
-//         title: "32",    
-//         content: "123, Charming Avenue", 
-//         id:5,
-//         user_id:2334,
-//         time:'12AM'
-
-//     };  
-//     jest.spyOn(global, "fetch").mockImplementation(() =>    
-//     Promise.resolve({      
-//         json: () => Promise.resolve(fakeBlog)    
-//     })  
-//     );
-//     // Use the asynchronous version of act to apply resolved promises
-//     await act( () => {
-//       render(<Provider store={configureStore}><Viewblogs /></Provider>, container);
-//     });
-
-//     // expect(container.textContent).toContain(fakeBlog.name);
-//     // expect(container.textContent).toContain(fakeBlog.title);
-//     // expect(container.textContent).toContain(fakeBlog.content);
-
-//     global.fetch.mockRestore();
-// })
-
+  });

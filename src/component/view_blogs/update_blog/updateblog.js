@@ -27,7 +27,7 @@ const Updateblog = ({ match }) => {
     e.preventDefault()
     const blogs = { title, content };
 
-    const response = fetch(`http://127.0.0.1:5000/update/${id}`, {
+    fetch(`http://127.0.0.1:5000/update/${id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
