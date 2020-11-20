@@ -1,11 +1,9 @@
 import React from 'react';
-import Header from './../addblogs';
 import { cleanup, render, fireEvent } from '@testing-library/react';
 import { Provider } from "react-redux";
 import '@testing-library/jest-dom/extend-expect';
 import configureStore  from './../../../reducer/authstore';
-import authreducer from './../../../reducer/authreducer';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router} from 'react-router-dom'
 import Addblogs from './../addblogs';
 import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
@@ -34,7 +32,7 @@ it('renders without crashing', () => {
 
 
 it(`filling the form`, () => {
-  const { queryByTestId, queryByPlaceholderText } = renderwithRedux(
+  const {queryByPlaceholderText } = renderwithRedux(
     <Router>
       <Addblogs />
     </Router>
@@ -56,7 +54,7 @@ it(`filling the form`, () => {
 });
 
 it(`check for validation and errors thrown`, () => {
-   const { queryByTestId, queryByPlaceholderText } = renderwithRedux(
+   const { queryByTestId} = renderwithRedux(
     <Router>
       <Addblogs />
     </Router>

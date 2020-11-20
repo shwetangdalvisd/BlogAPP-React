@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import PropTypes from 'prop-types';
+
 
 const Addblogs = (props) => {
   const [name, setName] = useState("");
@@ -40,8 +42,8 @@ const Addblogs = (props) => {
     const blogs = { name, title, content,user_id };
     const ValidationCheck = validate();
     if (ValidationCheck) {
-      const response = fetch('http://127.0.0.1:5000/add_blogs', {
-        method: 'POST',
+          fetch('http://127.0.0.1:5000/add_blogs', {
+              method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -116,5 +118,10 @@ const Addblogs = (props) => {
 const mapStateToProps = (state) => {
   return { isSignedIn: state.isSignedIn, userId: state.userId };
 };
+
+Addblogs.propTypes = {
+  userId: PropTypes.number,
+};
+
 
 export default connect(mapStateToProps)(Addblogs);

@@ -1,7 +1,8 @@
-import React ,{ Component } from 'react'
+import React from 'react'
 import './Header'
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 
 const Header = (props) => {
@@ -15,7 +16,7 @@ const Header = (props) => {
         }
     
     }
-  return ( 
+  return (
         <div className="header-dark">
             <nav className="navbar navbar-dark navbar-expand-md navigation-clean-search">
                 <div className="container"><Link data-testid='Blog App' className="navbar-brand" to="/">BLOG APP</Link><button className="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span className="sr-only">Toggle navigation</span><span className="navbar-toggler-icon"></span></button>
@@ -36,5 +37,9 @@ const Header = (props) => {
 const mapStateToProps = state => {
    return { isSignedIn: state.isSignedIn, userId: state.userId };
 };
+
+Header.propTypes = {
+    isSignedIn: PropTypes.bool
+  };
 
 export default connect(mapStateToProps)(Header);

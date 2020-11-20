@@ -1,5 +1,6 @@
 from . import db
 from datetime import datetime
+
 class Blog(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
 	name = db.Column(db.String(50))
@@ -7,4 +8,6 @@ class Blog(db.Model):
 	title = db.Column(db.String(50))
 	content = db.Column(db.Text(500))
 	user_id = db.Column(db.VARCHAR)
+
+
 	

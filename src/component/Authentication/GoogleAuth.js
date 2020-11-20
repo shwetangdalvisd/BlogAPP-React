@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { signIn, signOut } from "../../actions/authaction";
+import PropTypes from 'prop-types';
 
 const GoogleAuth = ({ userId, dispatch }) => {
   const [auth, setAuth] = useState("");
@@ -61,5 +62,11 @@ const GoogleAuth = ({ userId, dispatch }) => {
 const mapStateToProps = (state) => {
   return { isSignedIn: state.isSignedIn, userId: state.userId };
 };
+
+GoogleAuth.propTypes = {
+  userId: PropTypes.number,
+  dispatch: PropTypes.func
+};
+
 
 export default connect(mapStateToProps)(GoogleAuth);
