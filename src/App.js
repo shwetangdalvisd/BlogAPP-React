@@ -11,6 +11,7 @@ import GoogleAuth from './component/Authentication/GoogleAuth'
 import Updateblog from './component/view_blogs/update_blog/updateblog'
 
 function App() {
+
    return (
       <Provider store={configureStore}>
          <Router>
