@@ -1,12 +1,29 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
+import { gql } from "apollo-boost";
+import { graphql, Mutation } from "react-apollo";
+
+const ADD_BLOGS = gql`
+  mutation AddBlogs($name: String!, $id: String!,$title:String!,$content:String!,$time:String,$like:Int!,$user_id:String) {
+    post(name: $name, id: $id,title:$title,content:$content,time:$time,like:$like,user_id:$user_id) {
+      name
+      title
+      content
+      time
+      like
+      user_id
+    }
+  }
+`
 
 
 const Addblogs = (props) => {
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const time =  new Date().toLocaleString()
+  const like = 0;
   const user_id = props.userId;
   const Namechange = (e) => setName(e.target.value);
   const Titlechange = (e) => setTitle(e.target.value);
@@ -105,9 +122,9 @@ const Addblogs = (props) => {
               ></textarea>
             </div>
             <div className="Error-form" data-testid='content error'>{error.contentError}</div>
-            <button type="submit"  data-testid='submit' value="submit" onClick={onSubmitClick}>
-              Submit
-            </button>
+            <Mutation mutation={ADD_BLOGS} variables={{ name,title,content,time,like,user_id }}>
+              {(Add_Blogs) => <button onClick={Add_Blogs}>Submit</button>}
+            </Mutation>
           </div>
         </div>
       </form>
@@ -123,5 +140,5 @@ Addblogs.propTypes = {
   userId: PropTypes.number,
 };
 
-
-export default connect(mapStateToProps)(Addblogs);
+var addBlog = graphql(ADD_BLOGS)(Addblogs);
+export default connect(mapStateToProps)(addBlog);

@@ -3,7 +3,22 @@ import './Header'
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { gql } from "apollo-boost";
+import { graphql, Query } from "react-apollo";
 
+const getUserQuery = gql`
+  {
+    posts {
+      name
+      id
+      title
+      content
+      time
+      like
+      user_id
+    }
+  }
+`;
 
 const Header = (props) => {
     console.log(props)
@@ -42,4 +57,5 @@ Header.propTypes = {
     isSignedIn: PropTypes.bool
   };
 
-export default connect(mapStateToProps)(Header);
+var header = graphql(getUserQuery)(Header)
+export default connect(mapStateToProps)(header);

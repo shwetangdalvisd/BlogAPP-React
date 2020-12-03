@@ -1,0 +1,37 @@
+    return new Promise((resolve,reject)=>{
+                    database.all("SELECT * FROM Blog;", function(err, rows) {  
+                        if(err){
+                            reject([]);
+                        }
+                        resolve(rows);
+                    });
+                }
+
+                )
+
+
+
+
+{blogs.map((post) => {
+        console.log(blogs,post.name, "ssd");
+        return (
+          <div key={post.id} className="container">
+            <div className="col-md-8">
+              <Link to={`/singleblog/${post.id}`}>
+                <h1 data-testid="title">{post.title}</h1>
+              </Link>
+              <p data-testid="content">{post.content}</p>
+              <span className="badge" data-testid="content">
+                Posted:{post.time}
+              </span>
+              <div className="pull-right">
+                <span className="badge">{post.name}</span>
+              </div>
+              <Link className="pull-right" to={`/updateblog/${post.id}`}>
+                {loged_in_up(post.user_id)}
+              </Link>
+              {loged_in_del(post.id, post.user_id)}
+            </div>
+          </div>
+        );
+      })}
