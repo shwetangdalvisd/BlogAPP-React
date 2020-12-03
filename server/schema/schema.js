@@ -1,22 +1,10 @@
 const graphql = require('graphql');
-
-// const sqlite3 = require('sqlite3').verbose();
 const _=require('lodash')
 
-// const database = new sqlite3.Database("D:/Blog_APP/BlogAPP-React/BlogAPP-React/server/api/database.db");
-// // const database = new sqlite3.Database("./../api/database.db");
-// console.log(database.all(`SELECT * FROM Blog;`))
 const {GraphQLObjectType} = graphql;
 const Blog = require('./../model/Blog')
 const User = require('./../model/User')
 
-// var Blogs =[
-//     {id:'1',name:'Shwetang',title:'We The People!',content:'Thank You for visiting!',time:'Feb 1992',like:5,user_id:'dfer3'},
-//     {id:'2',name:'Shwetang',title:'We Are Sparta',content:'Thank You for visiting APPle Store!',time:'Feb 1992',like:5,user_id:'dfer3'}
-// ]
-// var Users =[
-//     {name:'Shwetang',id:'dfer3',saved:['localhostlink']}
-// ]
 
 const BlogType =new GraphQLObjectType({
     name:'Blog',

@@ -64,7 +64,7 @@ const mapStateToProps = (state) => {
 };
 
 GoogleAuth.propTypes = {
-  userId: PropTypes.number,
+  userId: PropTypes.string,
   dispatch: PropTypes.func
 };
 

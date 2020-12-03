@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 import { gql } from "apollo-boost";
-import { graphql, Mutation } from "react-apollo";
+import { graphql} from "react-apollo";
 
-const ADD_BLOGS = gql`
-  mutation AddBlogs($name: String!, $id: String!,$title:String!,$content:String!,$time:String,$like:Int!,$user_id:String) {
-    post(name: $name, id: $id,title:$title,content:$content,time:$time,like:$like,user_id:$user_id) {
+const Mutation_ADD_BLOGS = gql`
+  mutation($name: String!,$title:String!,$content:String!,$time:String,$like:Int!,$user_id:String) {
+    addBlog(name: $name ,title:$title,content:$content,time:$time,like:$like,user_id:$user_id) {
       name
       title
       content
@@ -22,9 +22,9 @@ const Addblogs = (props) => {
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const time =  new Date().toLocaleString()
   const like = 0;
   const user_id = props.userId;
+  console.log(user_id,"user_id")
   const Namechange = (e) => setName(e.target.value);
   const Titlechange = (e) => setTitle(e.target.value);
   const Contentchange = (e) => setContent(e.target.value);
@@ -53,19 +53,22 @@ const Addblogs = (props) => {
     setError(errors);
     return isValid;
   };
-
+  
   const onSubmitClick = (e) => {
     e.preventDefault()
-    const blogs = { name, title, content,user_id };
     const ValidationCheck = validate();
     if (ValidationCheck) {
-          fetch('http://127.0.0.1:5000/add_blogs', {
-              method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(blogs),
-        });
+      const time =  new Date().toLocaleString()
+      props.Mutation_ADD_BLOGS({
+        variables:{
+          name:name,
+          title:title,
+          content:content,
+          time:time,
+          user_id:user_id,
+          like:like
+        }
+      })
     }
     setName("");
     setTitle("");
@@ -122,9 +125,10 @@ const Addblogs = (props) => {
               ></textarea>
             </div>
             <div className="Error-form" data-testid='content error'>{error.contentError}</div>
-            <Mutation mutation={ADD_BLOGS} variables={{ name,title,content,time,like,user_id }}>
-              {(Add_Blogs) => <button onClick={Add_Blogs}>Submit</button>}
-            </Mutation>
+            <button type="submit" value="submit" onClick={onSubmitClick}>
+                Submit
+            </button>
+
           </div>
         </div>
       </form>
@@ -137,8 +141,8 @@ const mapStateToProps = (state) => {
 };
 
 Addblogs.propTypes = {
-  userId: PropTypes.number,
+  userId: PropTypes.string,
 };
 
-var addBlog = graphql(ADD_BLOGS)(Addblogs);
+var addBlog = graphql(Mutation_ADD_BLOGS,{name:"Mutation_ADD_BLOGS"})(Addblogs);
 export default connect(mapStateToProps)(addBlog);

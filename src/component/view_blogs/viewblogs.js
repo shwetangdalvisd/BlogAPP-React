@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { gql } from "apollo-boost";
 import { graphql, Query } from "react-apollo";
 
+
 const getBlogsQuery = gql`
   {
     posts {

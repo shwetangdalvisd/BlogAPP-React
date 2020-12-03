@@ -12,7 +12,7 @@ import Updateblog from "./component/view_blogs/update_blog/updateblog";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
 });
 
