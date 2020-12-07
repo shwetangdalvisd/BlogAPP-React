@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
-import { gql } from "apollo-boost";
-import { graphql} from "react-apollo";
+import { gql, useMutation } from '@apollo/client';
 import { getBlogsQuery } from "../view_blogs/viewblogs";
 
 const Mutation_ADD_BLOGS = gql`
@@ -32,6 +31,7 @@ const Addblogs = (props) => {
     titleError: ``,
     contentError: ``,
   });
+  const [M_ADD_BLOGS, { data }] = useMutation(Mutation_ADD_BLOGS);
 
   const validate = () => {
     let errors = {};
@@ -58,7 +58,7 @@ const Addblogs = (props) => {
     const ValidationCheck = validate();
     if (ValidationCheck) {
       const time =  new Date().toLocaleString()
-      props.Mutation_ADD_BLOGS({
+      M_ADD_BLOGS({
         variables:{
           name:name,
           title:title,
@@ -144,5 +144,4 @@ Addblogs.propTypes = {
   userId: PropTypes.string,
 };
 
-var addBlog = graphql(Mutation_ADD_BLOGS,{name:"Mutation_ADD_BLOGS"})(Addblogs);
-export default connect(mapStateToProps)(addBlog);
+export default connect(mapStateToProps)(Addblogs);

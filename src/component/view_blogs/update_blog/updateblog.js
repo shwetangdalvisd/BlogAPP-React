@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { gql } from "apollo-boost";
+import { gql, useQuery, ApolloProvider } from "@apollo/client";
 import { graphql, Query } from "react-apollo";
-import { flowRight as compose } from "lodash";
+import { compose } from "redux";
+import { client } from "../../../App";
 
 const getBlogsQuery = gql`
   query($id: String) {
@@ -35,31 +36,42 @@ const Updateblog = (props) => {
   const Contentchange = (e) => setContent(e.target.value);
   console.log(props, "sdsdsdd");
   console.log(props.match.params.id, "id");
+  // useEffect(()=>{
+  //   props.getBlogsQuery({
+  //     variables:{
+  //       id:props.match.params.id
+  //     }
+  //   })
+  // },[])
+  const { loading, error, data } = useQuery(getBlogsQuery, {
+    variables: { id: props.match.params.id },
+  });
   const displayblog = () => {
-    const { post } = props.getBlogsQuery;
-    if (post) {
+    if (loading) return <p>Loading ...</p>;
+    if (data) {
+      console.log(data);
       return (
         <form>
-          <div className="container">
-            <div className="form-group">
-              <input type="text" value={title} onChange={Titlechange} />
-              <br></br>
-              <br></br>
-              <textarea
-                rows="10"
-                cols="50"
-                name="content"
-                value={content}
-                onChange={Contentchange}
-              >
-                {content}
-              </textarea>
-              {/* <span className="badge">Posted:{time}</span><div className="pull-right"><span className="badge">{name}</span></div> */}
-              <br></br>
-              <br></br>
-              <button onClick={onSubmitClick}>UPDATE</button>
+            <div className="container">
+              <div className="form-group">
+                <input type="text" value={title} onChange={Titlechange} />
+                <br></br>
+                <br></br>
+                <textarea
+                  rows="10"
+                  cols="50"
+                  name="content"
+                  value={content}
+                  onChange={Contentchange}
+                >
+                  {content}
+                </textarea>
+                {/* <span className="badge">Posted:{time}</span><div className="pull-right"><span className="badge">{name}</span></div> */}
+                <br></br>
+                <br></br>
+                <button onClick={onSubmitClick}>UPDATE</button>
+              </div>
             </div>
-          </div>
         </form>
       );
     } else {
@@ -84,22 +96,7 @@ const Updateblog = (props) => {
 Updateblog.propTypes = {
   match: PropTypes.object,
   params: PropTypes.object,
-  id: PropTypes.number,
+  id: PropTypes.string,
 };
 
-export default compose(
-  graphql(
-    getBlogsQuery,
-    { name: "getBlogsQuery" },
-    {
-      options: (props) => {
-        return {
-          variables: {
-            id: props.match.params.id,
-          },
-        };
-      },
-    }
-  ),
-  graphql(mutateblogupdate, { name: "mutateblogupdate" })
-)(Updateblog);
+export default Updateblog;

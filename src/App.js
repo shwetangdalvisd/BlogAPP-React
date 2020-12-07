@@ -10,7 +10,9 @@ import Singleblog from "./component/view_blogs/Single_Blog/singleblog";
 import GoogleAuth from "./component/Authentication/GoogleAuth";
 import Updateblog from "./component/view_blogs/update_blog/updateblog";
 import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "react-apollo";
+// import { ApolloProvider } from "react-apollo";
+import { gql, useQuery, ApolloProvider } from "@apollo/client";
+
 
 export const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
