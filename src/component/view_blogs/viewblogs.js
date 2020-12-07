@@ -7,7 +7,7 @@ import { gql } from "apollo-boost";
 import { graphql, Query } from "react-apollo";
 
 
-const getBlogsQuery = gql`
+export const getBlogsQuery = gql`
   {
     posts {
       name
@@ -20,6 +20,13 @@ const getBlogsQuery = gql`
     }
   }
 `;
+
+const deleteBlogsquery = gql`
+mutation ($id:String){
+  deleteBlog(id:$id){
+    id
+  }}
+`
 
 const Viewblogs = (props) => {
   console.log(props);

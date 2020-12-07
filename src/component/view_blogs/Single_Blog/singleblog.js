@@ -1,33 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { gql } from "apollo-boost";
+import { graphql, Query } from "react-apollo";
 
-const Singleblog = ({ match }) => {
-  const [posts, setPost] = useState([]);
+const getBlogsQuery = gql`
+  query($id:String){
+    post(id:$id) {
+      name
+      id
+      title
+      content
+      time
+      like
+      user_id
+    }
+  }
+`;
 
-  const id = match.params.id;
-  useEffect(() => {
-    const fetchRes = () => {
-      fetch(`http://127.0.0.1:5000/singleblog/${id}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }).then((response) =>
-        response.json().then((data) => {
-          setPost(data.singleb);
-        })
-      );
-    };
-    fetchRes();
-  }, []);
-  
+const Singleblog = (props) => {
+  // const [post, setPost] = useState([]);
 
-  console.log(posts,'posts')
-  return (
-    <div>
-      {posts.map((post) => {
-        return (
-          <div key={post.id} className="container">
+  // const id = match.params.id;
+ console.log(props,"p")
+  const displayblog = ()=>{
+    const {post} = props.data;
+    if (post){
+      return(
+        <div key={post.id} className="container">
             <div className="col-md-16">
               <h1 data-testid='title'>{post.title}</h1>
               <p>{post.content}</p>
@@ -36,11 +35,19 @@ const Singleblog = ({ match }) => {
                 <span className="badge">{post.name}</span>
               </div>
             </div>
+        </div>
+      )
+    }else{
+      return(
+        <div>Nothing to Return</div>
+      )
+    }
+  }
+        return (
+          <div className="container">
+            {displayblog()}
           </div>
         );
-      })}
-    </div>
-  );
 };
 
 Singleblog.propTypes = {
@@ -49,4 +56,12 @@ Singleblog.propTypes = {
   id: PropTypes.number
 };
 
-export default Singleblog;
+export default graphql(getBlogsQuery,{
+  options:(props) =>{
+    return{
+      variables:{
+        id:props.match.params.id
+      }
+    }
+  }
+})(Singleblog);

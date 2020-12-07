@@ -117,6 +117,36 @@ const Mutation = new GraphQLObjectType({
                 })
                 return blog.save()
             }
+        },
+        updateBlog:{
+            type:BlogType,
+            args:{
+                id: {type: graphql.GraphQLString},
+                title: { type: graphql.GraphQLString },
+                content: { type: graphql.GraphQLString }
+            },
+            resolve(parents,args){
+                return new Promise((resolve, reject) => {
+                    Blog.findOneAndUpdate(
+                        {"_id": args.id},
+                        { "$set":{title: args.title, content: args.content}},
+                        {"new": true} //returns new document
+                    ).exec((err, res) => {
+                        console.log('test', res)
+                        if(err) reject(err)
+                        else resolve(res)
+                    })
+                })
+            }
+        },
+        deleteBlog:{
+            type:BlogType,
+            args:{
+                id: {type: graphql.GraphQLString}
+            },
+            resolve(parents,args){
+                return Blog.findByIdAndRemove(args.id)
+            }
         }
     }
 })

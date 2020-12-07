@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 import { gql } from "apollo-boost";
 import { graphql} from "react-apollo";
+import { getBlogsQuery } from "../view_blogs/viewblogs";
 
 const Mutation_ADD_BLOGS = gql`
   mutation($name: String!,$title:String!,$content:String!,$time:String,$like:Int!,$user_id:String) {
@@ -16,8 +17,6 @@ const Mutation_ADD_BLOGS = gql`
     }
   }
 `
-
-
 const Addblogs = (props) => {
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
@@ -67,7 +66,8 @@ const Addblogs = (props) => {
           time:time,
           user_id:user_id,
           like:like
-        }
+        },
+        refetchQueries:[{query:getBlogsQuery}]
       })
     }
     setName("");
