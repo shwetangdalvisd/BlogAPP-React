@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { gql, useQuery, ApolloProvider } from "@apollo/client";
-import { graphql, Query } from "react-apollo";
-import { compose } from "redux";
-import { client } from "../../../App";
+import { gql, useQuery, useMutation } from "@apollo/client";
+
 
 const getBlogsQuery = gql`
   query($id: String) {
@@ -36,23 +34,26 @@ const Updateblog = (props) => {
   const Contentchange = (e) => setContent(e.target.value);
   console.log(props, "sdsdsdd");
   console.log(props.match.params.id, "id");
-  // useEffect(()=>{
-  //   props.getBlogsQuery({
-  //     variables:{
-  //       id:props.match.params.id
-  //     }
-  //   })
-  // },[])
+  const [M_BLOGS_update, { d }] = useMutation(mutateblogupdate);
   const { loading, error, data } = useQuery(getBlogsQuery, {
     variables: { id: props.match.params.id },
   });
+  
+  useEffect(()=>{
+    console.log(data,"use")
+    if(data){
+    setTitle(data.post.title);
+    setContent(data.post.content)
+    }
+  },[data])
   const displayblog = () => {
     if (loading) return <p>Loading ...</p>;
     if (data) {
-      console.log(data);
+      console.log(data,"data");
+
       return (
         <form>
-            <div className="container">
+          <div>
               <div className="form-group">
                 <input type="text" value={title} onChange={Titlechange} />
                 <br></br>
@@ -81,7 +82,7 @@ const Updateblog = (props) => {
   const onSubmitClick = (e) => {
     e.preventDefault();
     let id = props.match.params.id;
-    props.mutateblogupdate({
+    M_BLOGS_update({
       variables: {
         id: id,
         title: title,

@@ -60,7 +60,7 @@ const Viewblogs = (props) => {
     }
   };
   const { loading, error, data } = useQuery(getBlogsQuery);
-  if (loading) return <p>Loading ...</p>;
+  if (loading) return <p data-testid="loading">Loading ...</p>;
   if (data) {
     console.log(data)};
   const blogs = data.posts;
