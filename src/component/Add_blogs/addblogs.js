@@ -5,7 +5,7 @@ import { gql, useMutation } from '@apollo/client';
 import { getBlogsQuery } from "../view_blogs/viewblogs";
 
 const Mutation_ADD_BLOGS = gql`
-  mutation($name: String!,$title:String!,$content:String!,$time:String,$like:Int!,$user_id:String) {
+  mutation($name: String!,$title:String!,$content:String!,$time:String!,$like:Int!,$user_id:String) {
     addBlog(name: $name ,title:$title,content:$content,time:$time,like:$like,user_id:$user_id) {
       name
       title
@@ -31,7 +31,7 @@ const Addblogs = (props) => {
     titleError: ``,
     contentError: ``,
   });
-  const [M_ADD_BLOGS, { data }] = useMutation(Mutation_ADD_BLOGS);
+  const [M_ADD_BLOGS] = useMutation(Mutation_ADD_BLOGS);
 
   const validate = () => {
     let errors = {};
@@ -57,7 +57,8 @@ const Addblogs = (props) => {
     e.preventDefault()
     const ValidationCheck = validate();
     if (ValidationCheck) {
-      const time =  new Date().toLocaleString()
+      const time =  new Date().toString()
+      console.log(typeof time,"timr")
       M_ADD_BLOGS({
         variables:{
           name:name,

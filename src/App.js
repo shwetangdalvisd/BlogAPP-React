@@ -11,7 +11,7 @@ import GoogleAuth from "./component/Authentication/GoogleAuth";
 import Updateblog from "./component/view_blogs/update_blog/updateblog";
 import ApolloClient from "apollo-boost";
 // import { ApolloProvider } from "react-apollo";
-import { gql, useQuery, ApolloProvider } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 
 
 export const client = new ApolloClient({

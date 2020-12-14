@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { gql, useQuery, ApolloProvider } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 
-const getBlogsQuery = gql`
+export const getBlogsQuery = gql`
   query($id:String){
     post(id:$id) {
       name
@@ -21,12 +21,12 @@ const Singleblog = (props) => {
 
   // const id = match.params.id;
  console.log(props,"p")
- const { loading, error, data } = useQuery(getBlogsQuery,{
+ const { loading, data } = useQuery(getBlogsQuery,{
    variables:{id:props.match.params.id},
- });
+ })
   if (loading) return <p>Loading ...</p>;
   if (data) {
-    console.log(data,"data")};
+    console.log(data,"data")}
   const post = data.post;
   return(
     <div key={post.id} className="container">

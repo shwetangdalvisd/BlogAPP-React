@@ -34,8 +34,8 @@ const Updateblog = (props) => {
   const Contentchange = (e) => setContent(e.target.value);
   console.log(props, "sdsdsdd");
   console.log(props.match.params.id, "id");
-  const [M_BLOGS_update, { d }] = useMutation(mutateblogupdate);
-  const { loading, error, data } = useQuery(getBlogsQuery, {
+  const [M_BLOGS_update] = useMutation(mutateblogupdate);
+  const { loading, data } = useQuery(getBlogsQuery, {
     variables: { id: props.match.params.id },
   });
   

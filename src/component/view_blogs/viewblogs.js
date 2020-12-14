@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchdataV, fetchdataVD } from "./../Fetchdata/fetchdata";
 import PropTypes from "prop-types";
 import { gql, useQuery, useMutation} from "@apollo/client";
-import { graphql, Query } from "react-apollo";
 
 export const getBlogsQuery = gql`
   {
@@ -30,7 +28,7 @@ const deleteBlogsquery = gql`
 
 const Viewblogs = (props) => {
   console.log(props);
-  const [del_blog, { d }] = useMutation(deleteBlogsquery);
+  const [del_blog] = useMutation(deleteBlogsquery);
 
   const onDelete = (id) => {
     del_blog({
@@ -59,10 +57,10 @@ const Viewblogs = (props) => {
       return null;
     }
   };
-  const { loading, error, data } = useQuery(getBlogsQuery);
+  const { loading, data } = useQuery(getBlogsQuery);
   if (loading) return <p data-testid="loading">Loading ...</p>;
   if (data) {
-    console.log(data)};
+    console.log(data)}
   const blogs = data.posts;
   return (
     <div>

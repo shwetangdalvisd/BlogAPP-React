@@ -10,6 +10,9 @@ var Blog = require('./../model/Blog');
 
 var User = require('./../model/User');
 
+var _require = require('graphql-iso-date'),
+    GraphQLDateTime = _require.GraphQLDateTime;
+
 var BlogType = new GraphQLObjectType({
   name: 'Blog',
   fields: function fields() {
