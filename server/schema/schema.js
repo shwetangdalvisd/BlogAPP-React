@@ -14,7 +14,6 @@ const BlogType =new GraphQLObjectType({
         name:{type:graphql.GraphQLString},
         title: { type: graphql.GraphQLString },
         content: { type: graphql.GraphQLString },
-        time: { type: graphql.GraphQLString },
         like: { type: graphql.GraphQLInt },
         user_id:{type: graphql.GraphQLString},
         user: { 
@@ -103,7 +102,6 @@ const Mutation = new GraphQLObjectType({
                 name:{type:graphql.GraphQLString},
                 title: { type: graphql.GraphQLString },
                 content: { type: graphql.GraphQLString },
-                time: { type: graphql.GraphQLString },
                 like: { type: graphql.GraphQLInt },
                 user_id:{type: graphql.GraphQLString}
             },
@@ -112,7 +110,6 @@ const Mutation = new GraphQLObjectType({
                     name:args.name,
                     title:args.title,
                     content:args.content,
-                    time:args.time,
                     like:args.like,
                     user_id:args.user_id
                 })

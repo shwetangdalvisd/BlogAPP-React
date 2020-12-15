@@ -5,12 +5,11 @@ import { gql, useMutation } from '@apollo/client';
 import { getBlogsQuery } from "../view_blogs/viewblogs";
 
 const Mutation_ADD_BLOGS = gql`
-  mutation($name: String!,$title:String!,$content:String!,$time:String!,$like:Int!,$user_id:String) {
-    addBlog(name: $name ,title:$title,content:$content,time:$time,like:$like,user_id:$user_id) {
+  mutation($name: String!,$title:String!,$content:String!,$like:Int!,$user_id:String) {
+    addBlog(name: $name ,title:$title,content:$content,like:$like,user_id:$user_id) {
       name
       title
       content
-      time
       like
       user_id
     }
@@ -57,14 +56,13 @@ const Addblogs = (props) => {
     e.preventDefault()
     const ValidationCheck = validate();
     if (ValidationCheck) {
-      const time =  new Date().toString()
-      console.log(typeof time,"timr")
+      // const time =  new Date().toString()
+      // console.log(typeof time,"timr")
       M_ADD_BLOGS({
         variables:{
           name:name,
           title:title,
           content:content,
-          time:time,
           user_id:user_id,
           like:like
         },

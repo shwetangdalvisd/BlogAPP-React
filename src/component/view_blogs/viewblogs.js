@@ -11,7 +11,6 @@ export const getBlogsQuery = gql`
       id
       title
       content
-      time
       like
       user_id
     }
@@ -71,8 +70,8 @@ const Viewblogs = (props) => {
               <h1 data-testid="title">{post.title}</h1>
             </Link>
             <p data-testid="content">{post.content}</p>
-            <span className="badge" data-testid="content">
-              Posted:{post.time}
+            <span className="badge" data-testid="time">
+              Posted:
             </span>
             <div className="pull-right">
               <span className="badge">{post.name}</span>

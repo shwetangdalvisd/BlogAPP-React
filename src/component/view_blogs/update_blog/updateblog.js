@@ -3,21 +3,20 @@ import PropTypes from "prop-types";
 import { gql, useQuery, useMutation } from "@apollo/client";
 
 
-const getBlogsQuery = gql`
+export const getBlogsQuery = gql`
   query($id: String) {
     post(id: $id) {
       name
       id
       title
       content
-      time
       like
       user_id
     }
   }
 `;
 
-const mutateblogupdate = gql`
+export const mutateblogupdate = gql`
   mutation($id: String, $title: String, $content: String) {
     updateBlog(id: $id, title: $title, content: $content) {
       id
@@ -55,13 +54,15 @@ const Updateblog = (props) => {
         <form>
           <div>
               <div className="form-group">
-                <input type="text" value={title} onChange={Titlechange} />
+                <input type="text" data-testid='title' aria-label="title" value={title} onChange={Titlechange} />
                 <br></br>
                 <br></br>
                 <textarea
                   rows="10"
                   cols="50"
                   name="content"
+                  aria-label="content"
+                  data-testid='content'
                   value={content}
                   onChange={Contentchange}
                 >

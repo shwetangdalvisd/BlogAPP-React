@@ -9,7 +9,6 @@ export const getBlogsQuery = gql`
       id
       title
       content
-      time
       like
       user_id
     }
@@ -33,7 +32,7 @@ const Singleblog = (props) => {
         <div className="col-md-16">
           <h1 data-testid='title'>{post.title}</h1>
           <p>{post.content}</p>
-          <span className="badge">Posted:{post.time}</span>
+          <span className="badge">Posted:</span>
           <div className="pull-right">
             <span className="badge">{post.name}</span>
           </div>

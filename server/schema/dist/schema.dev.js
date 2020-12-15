@@ -29,9 +29,6 @@ var BlogType = new GraphQLObjectType({
       content: {
         type: graphql.GraphQLString
       },
-      time: {
-        type: graphql.GraphQLString
-      },
       like: {
         type: graphql.GraphQLInt
       },
@@ -152,9 +149,6 @@ var Mutation = new GraphQLObjectType({
         content: {
           type: graphql.GraphQLString
         },
-        time: {
-          type: graphql.GraphQLString
-        },
         like: {
           type: graphql.GraphQLInt
         },
@@ -167,7 +161,6 @@ var Mutation = new GraphQLObjectType({
           name: args.name,
           title: args.title,
           content: args.content,
-          time: args.time,
           like: args.like,
           user_id: args.user_id
         });
