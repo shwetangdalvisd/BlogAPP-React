@@ -124,7 +124,7 @@ const Addblogs = (props) => {
               ></textarea>
             </div>
             <div className="Error-form" data-testid='content error'>{error.contentError}</div>
-            <button type="submit" value="submit" onClick={onSubmitClick}>
+            <button type="submit" value="submit" data-testid='submit' onClick={onSubmitClick}>
                 Submit
             </button>
 
