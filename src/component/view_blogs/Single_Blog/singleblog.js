@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { gql, useQuery } from "@apollo/client";
 
 export const getBlogsQuery = gql`
-  query($id:String){
+  query($id:Int){
     post(id:$id) {
       name
       id
       title
       content
-      like
+      time
       user_id
     }
   }
@@ -19,11 +19,13 @@ const Singleblog = (props) => {
   // const [post, setPost] = useState([]);
 
   // const id = match.params.id;
- console.log(props,"p")
- const { loading, data } = useQuery(getBlogsQuery,{
-   variables:{id:props.match.params.id},
+ const id = parseInt(props.match.params.id)
+ console.log(typeof id,"p")
+ const { loading, data,error } = useQuery(getBlogsQuery,{
+   variables:{id:id},
  })
   if (loading) return <p>Loading ...</p>;
+  if (error) return console.log(error);
   if (data) {
     console.log(data,"data")}
   const post = data.post;

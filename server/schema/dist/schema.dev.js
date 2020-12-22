@@ -1,24 +1,26 @@
 "use strict";
 
-var graphql = require('graphql');
+var graphql = require("graphql");
 
-var _ = require('lodash');
+var _ = require("lodash");
 
 var GraphQLObjectType = graphql.GraphQLObjectType;
 
-var Blog = require('./../model/Blog');
+var Blog = require("./../model/Blog");
 
-var User = require('./../model/User');
+var User = require("./../model/User");
 
-var _require = require('graphql-iso-date'),
+var _require = require("graphql-iso-date"),
     GraphQLDateTime = _require.GraphQLDateTime;
 
+var fetch = require("node-fetch");
+
 var BlogType = new GraphQLObjectType({
-  name: 'Blog',
+  name: "Blog",
   fields: function fields() {
     return {
       id: {
-        type: graphql.GraphQLString
+        type: graphql.GraphQLInt
       },
       name: {
         type: graphql.GraphQLString
@@ -29,114 +31,96 @@ var BlogType = new GraphQLObjectType({
       content: {
         type: graphql.GraphQLString
       },
-      like: {
-        type: graphql.GraphQLInt
+      time: {
+        type: graphql.GraphQLString
       },
       user_id: {
         type: graphql.GraphQLString
-      },
-      user: {
-        type: UserType,
-        resolve: function resolve(parent, args) {
-          return User.findById(parent.user_id);
-        }
-      }
+      } // user: {
+      //     type: UserType,
+      //     resolve(parent,args){
+      //         return User.findById(parent.user_id);
+      //     }
+      // }
+
     };
   }
-});
-var UserType = new GraphQLObjectType({
-  name: 'User',
-  fields: function fields() {
-    return {
-      name: {
-        type: graphql.GraphQLString
-      },
-      id: {
-        type: graphql.GraphQLString
-      },
-      saved: {
-        type: new graphql.GraphQLList(graphql.GraphQLString)
-      },
-      posts: {
-        type: new graphql.GraphQLList(BlogType),
-        resolve: function resolve(parent, args) {
-          // return _.filter(Blogs,{user_id:parent.id})
-          return Blog.find({
-            user_id: parent.id
-          });
-        }
-      }
-    };
-  }
-});
+}); // const UserType =new GraphQLObjectType({
+//     name:'User',
+//     fields:()=>({
+//         name:{type:graphql.GraphQLString},
+//         id: { type: graphql.GraphQLString },
+//         saved: { type: new graphql.GraphQLList(graphql.GraphQLString) },
+//         posts:{
+//             type:new graphql.GraphQLList(BlogType),
+//             resolve(parent,args){
+//                 // return _.filter(Blogs,{user_id:parent.id})
+//                 return Blog.find({user_id:parent.id})
+//             }
+//         }
+//     })
+// })
+
 var RootQuery = new GraphQLObjectType({
-  name: 'RootQueryType',
+  name: "RootQueryType",
   fields: {
     post: {
       type: BlogType,
       args: {
         id: {
-          type: graphql.GraphQLString
+          type: graphql.GraphQLInt
         }
       },
       resolve: function resolve(parent, args) {
-        //   return _.find(Blogs,{id:args.id})
-        return Blog.findById(args.id);
+        return fetch("http://127.0.0.1:5000/singleblog/".concat(args.id)).then(function (response) {
+          return response.json();
+        });
       }
     },
-    user: {
-      type: UserType,
-      args: {
-        id: {
-          type: graphql.GraphQLString
-        }
-      },
-      resolve: function resolve(parent, args) {
-        // return _.find(Users,{id:args.id})
-        return User.findById(args.id);
-      }
-    },
+    // user:{
+    //     type:UserType,
+    //     args:{id:{type:graphql.GraphQLString}},
+    //     resolve(parent,args){
+    //         // return _.find(Users,{id:args.id})
+    //         return User.findById(args.id)
+    //     }
+    // },
     posts: {
       type: graphql.GraphQLList(BlogType),
       resolve: function resolve(parent, args) {
-        // return Blogs
-        return Blog.find({});
+        return fetch("http://127.0.0.1:5000/blogs").then(function (response) {
+          return response.json();
+        }); // return Blog.find({})
       }
-    },
-    Users: {
-      type: graphql.GraphQLList(UserType),
-      resolve: function resolve(parent, args) {
-        // return Users
-        return User.find({});
-      }
-    }
+    } // Users:{
+    //     type:graphql.GraphQLList(UserType),
+    //     resolve(parent,args){
+    //         // return Users
+    //         return User.find({})
+    //     }
+    // }
+
   }
 });
 var Mutation = new GraphQLObjectType({
-  name: 'Mutation',
+  name: "Mutation",
   fields: {
-    addUser: {
-      type: UserType,
-      args: {
-        name: {
-          type: graphql.GraphQLString
-        },
-        id: {
-          type: graphql.GraphQLString
-        },
-        saved: {
-          type: new graphql.GraphQLList(graphql.GraphQLString)
-        }
-      },
-      resolve: function resolve(parents, args) {
-        var user = new User({
-          _id: args.id,
-          name: args.name,
-          saved: args.saved
-        });
-        return user.save();
-      }
-    },
+    // addUser:{
+    //     type:UserType,
+    //     args:{
+    //         name:{type:graphql.GraphQLString},
+    //         id: { type: graphql.GraphQLString },
+    //         saved: { type: new graphql.GraphQLList(graphql.GraphQLString) }
+    //     },
+    //     resolve(parents,args){
+    //         let user = new User({
+    //             _id:args.id,
+    //             name:args.name,
+    //             saved:args.saved
+    //         })
+    //         return user.save()
+    //     }
+    // },
     addBlog: {
       type: BlogType,
       args: {
@@ -149,29 +133,35 @@ var Mutation = new GraphQLObjectType({
         content: {
           type: graphql.GraphQLString
         },
-        like: {
-          type: graphql.GraphQLInt
+        time: {
+          type: graphql.GraphQLString
         },
         user_id: {
           type: graphql.GraphQLString
         }
       },
       resolve: function resolve(parents, args) {
-        var blog = new Blog({
+        var blog = {
           name: args.name,
           title: args.title,
           content: args.content,
-          like: args.like,
+          time: args.time,
           user_id: args.user_id
+        };
+        return fetch("http://127.0.0.1:5000/add_blogs", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(blog)
         });
-        return blog.save();
       }
     },
     updateBlog: {
       type: BlogType,
       args: {
         id: {
-          type: graphql.GraphQLString
+          type: graphql.GraphQLInt
         },
         title: {
           type: graphql.GraphQLString
@@ -181,21 +171,16 @@ var Mutation = new GraphQLObjectType({
         }
       },
       resolve: function resolve(parents, args) {
-        return new Promise(function (resolve, reject) {
-          Blog.findOneAndUpdate({
-            "_id": args.id
-          }, {
-            "$set": {
-              title: args.title,
-              content: args.content
-            }
-          }, {
-            "new": true
-          } //returns new document
-          ).exec(function (err, res) {
-            console.log('test', res);
-            if (err) reject(err);else resolve(res);
-          });
+        var blogs = {
+          title: args.title,
+          content: args.content
+        };
+        return fetch("http://127.0.0.1:5000/update/".concat(args.id), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(blogs)
         });
       }
     },
@@ -203,11 +188,15 @@ var Mutation = new GraphQLObjectType({
       type: BlogType,
       args: {
         id: {
-          type: graphql.GraphQLString
+          type: graphql.GraphQLInt
         }
       },
       resolve: function resolve(parents, args) {
-        return Blog.findByIdAndRemove(args.id);
+        return fetch("http://127.0.0.1:5000/deleteblog/".concat(args.id), {
+          method: "DELETE"
+        }).then(function (response) {
+          return response.json();
+        });
       }
     }
   }

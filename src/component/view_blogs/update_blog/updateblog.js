@@ -4,20 +4,20 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 
 
 export const getBlogsQuery = gql`
-  query($id: String) {
+  query($id: Int) {
     post(id: $id) {
       name
       id
       title
       content
-      like
+      time
       user_id
     }
   }
 `;
 
 export const mutateblogupdate = gql`
-  mutation($id: String, $title: String, $content: String) {
+  mutation($id: Int, $title: String, $content: String) {
     updateBlog(id: $id, title: $title, content: $content) {
       id
       title
@@ -34,8 +34,9 @@ const Updateblog = (props) => {
   console.log(props, "sdsdsdd");
   console.log(props.match.params.id, "id");
   const [M_BLOGS_update] = useMutation(mutateblogupdate);
+  const id = parseInt(props.match.params.id)
   const { loading, data } = useQuery(getBlogsQuery, {
-    variables: { id: props.match.params.id },
+    variables: { id: id },
   });
   
   useEffect(()=>{
@@ -82,14 +83,13 @@ const Updateblog = (props) => {
   };
   const onSubmitClick = (e) => {
     e.preventDefault();
-    let id = props.match.params.id;
     M_BLOGS_update({
       variables: {
         id: id,
         title: title,
         content: content,
       },
-      refetchQueries: [{ query: getBlogsQuery }],
+      refetchQueries: [{ query: getBlogsQuery,variables: { id: id } }],
     });
   };
   return <div className="container">{displayblog()}</div>;

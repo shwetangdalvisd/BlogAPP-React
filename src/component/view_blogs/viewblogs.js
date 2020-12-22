@@ -11,14 +11,14 @@ export const getBlogsQuery = gql`
       id
       title
       content
-      like
+      time
       user_id
     }
   }
 `;
 
 const deleteBlogsquery = gql`
-  mutation($id: String) {
+  mutation($id: Int) {
     deleteBlog(id: $id) {
       id
     }
